@@ -1,2 +1,2 @@
-# 3D_Seat-Booking
+# SeatIn
 2025 2학기 개척학기제 
