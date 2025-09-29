@@ -1,0 +1,124 @@
+.loginpage {
+  background-color: #999;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px; /* 화면 가장자리 여백 */
+  box-sizing: border-box;
+}
+
+.logo {
+  margin-left: 5%;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+}
+
+.logoHighlight {
+  color: #59CAD2;
+}
+
+.container {
+  flex: 1; /* 남은 공간을 차지하게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.box {
+  display: flex;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 800px;
+  height: 400px;
+}
+
+/* 좌측 */
+.loginLeft {
+  flex: 1;
+  background: #59CAD2;
+  /* 민트색 */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.socials {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 80%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+.loginBtn {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.findPw {
+  margin-top: 10px;
+  font-size: 12px;
+  color: white;
+  text-decoration: none;
+}
+
+/* 우측 */
+.loginRight {
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.welcome {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.signupBtn {
+  background: #59CAD2;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+
+  display: inline-block;
+  width: auto;
+  align-self: center;   /* ← 버튼을 가운데 맞추면서 가로 auto 유지 */
+}
+.socials img {
+  width: 32px;   /* 원하는 크기 */
+  height: 32px;  /* 정사각형 */
+  object-fit: contain; /* 비율 유지하며 맞춤 */
+  margin: 0 5px; /* 아이콘 간격 */
+  cursor: pointer;
+}
