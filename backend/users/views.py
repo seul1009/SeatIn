@@ -14,7 +14,7 @@ from .tokens import account_activation_token
 from django.utils.encoding import force_bytes
 from django.urls import reverse
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -104,7 +104,7 @@ class CustomRegisterView(RegisterView):
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }, status=status.HTTP_201_CREATED)
-        
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -116,7 +116,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             )
 
         return data
-
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
