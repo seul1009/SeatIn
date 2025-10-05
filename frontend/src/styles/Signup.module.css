@@ -1,105 +1,112 @@
 .signuppage {
-    background-color: #999;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  /* 로고 */
-  .logo {
-    margin-left: 5%;
-    font-size: 28px;
-    font-weight: 700;
-    color: white;
-  }
-  
-  .logoHighlight {
-    color: #59CAD2;
-  }
-  
-  .container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .box {
-    display: flex;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    width: 800px;
-    height: 400px;
-  }
-  
-  /* 좌측 */
-  .left {
-    flex: 1;
-    padding: 40px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .title {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .loginBtn {
-    background: #59CAD2;
-    border: none;
-    color: black;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 20px;
-    display: inline-block;
-    width: auto;
-    align-self: center;
-  }
-  
-  /* 우측 */
-  .right {
-    flex: 1;
-    background: #59CAD2;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .subtitle {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: white;
-  }
-  
-  .input {
-    width: 80%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-  }
-  
-  .signupBtn {
-    background: #333;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 10px;
-    display: inline-block;
-    width: auto;
-  }
-  
+  background-color: #999;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 로고 */
+.logo {
+  margin-left: 5%;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+}
+
+.logoHighlight {
+  color: #59CAD2;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  display: flex;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 800px;
+  height: 500px;
+}
+
+/* 좌측 */
+.left {
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.loginBtn {
+  background: #59CAD2;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: inline-block;
+  width: auto;
+  align-self: center;
+}
+
+/* 우측 */
+.right {
+  flex: 1;
+  background: #59CAD2;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.input {
+  width: 80%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+.signupBtn {
+  background: #333;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: inline-block;
+  width: auto;
+}
+
+.error {
+  color: #e74c3c;
+  /* 빨간 글씨 */
+  font-size: 0.8rem;
+  margin-top: 1px;
+  margin-left: 4px;
+  /* 입력창 안쪽과 살짝 여백 */
+}
