@@ -1,21 +1,17 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
-from .views import CustomRegisterView, CustomTokenObtainPairView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
-    # 기본 회원가입/로그인
-    path("", include("dj_rest_auth.urls")),
-    path("register/", CustomRegisterView.as_view(), name="custom_register"),
+    # ✅ 회원가입 / 이메일 인증
+    path("signup/", views.signup, name="signup"),
     path("activate/<uidb64>/<token>/", views.activate, name="account_activate"),
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+
+    # ✅ JWT 로그인 / 갱신
+    path("login/", views.CustomTokenObtainPairView.as_view(), name="login"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("login/", CustomTokenObtainPairView.as_view(), name="login"),
 
-    # 소셜 로그인 (allauth에서 제공하는 URL)
-    path("social/", include("allauth.socialaccount.urls")),
-
-    # 직접 만든 콜백 엔드포인트
+    # ✅ 소셜 로그인 콜백
     path("naver/callback/", views.naver_callback, name="naver_callback"),
     path("google/callback/", views.google_callback, name="google_callback"),
 ]
