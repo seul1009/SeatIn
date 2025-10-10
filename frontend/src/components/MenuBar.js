@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import gsap from "gsap";
 import Link from "next/link";
+import Logo from "../components/Logo";
 
 export default function MenuBar({ visible }) {
   const ref = useRef();
@@ -37,10 +38,10 @@ export default function MenuBar({ visible }) {
         position: "absolute",
         top: 0,
         left: 0,
-        width: "30vw",
+        width: "20vw",
         height: "100vh",
-        background: "rgba(0,0,0,0.9)",
-        color: "#fff",
+        background: "#fff",
+        color: "#000",
         padding: "4vh 3vw",
         opacity: 0,
         borderTopRightRadius: "100px",
@@ -56,18 +57,17 @@ export default function MenuBar({ visible }) {
         maskSize: "cover",
       }}
     >
-      <h1 style={{ fontFamily: "sans-serif", marginBottom: "10vw" }}>
-        <span style={{ color: "#fff" }}>Seat</span>
-        <span style={{ color: "#00bcd4" }}>In</span>
-      </h1>
+      <Logo/>
 
-      <div style={{ flex: 1, display: "flex", alignItems: "center" }}>
+      <div style={{ flex: 1, display: "flex", alignItems: "center"}}>
         <ul
           style={{
             listStyle: "none",
-            padding: 0,
-            margin: 0,
-            fontSize: "1.8vw",
+            display: "flex", 
+            flexDirection: "column",  // 세로로 정렬
+            gap: "20px",
+            paddingTop: 30,
+            fontSize: "20px",
           }}
         >
           <li style={{ margin: "7vh 0" }}>

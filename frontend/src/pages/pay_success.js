@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function PaySuccess() {
+export default function PaySuccessPage() {
   const router = useRouter();
   const { paymentKey, orderId, amount } = router.query;
   const [response, setResponse] = useState(null);
