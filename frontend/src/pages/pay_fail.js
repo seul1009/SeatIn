@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-export default function FailPage() {
+export default function PayFailPage() {
   const router = useRouter();
   const { message, code } = router.query;
 
