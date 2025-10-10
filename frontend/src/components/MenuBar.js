@@ -8,22 +8,24 @@ export default function MenuBar({ visible }) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // ✅ 로그인 상태 확인
+  // 로그인 상태 확인
   useEffect(() => {
     const token = localStorage.getItem("access");
     setIsLoggedIn(!!token); // 있으면 true, 없으면 false
   }, []);
 
-  // ✅ 로그아웃 함수
+  // 로그아웃 
   const handleLogout = () => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
     setIsLoggedIn(false);
-    alert("로그아웃 되었습니다!");
-    router.push("/login");
+    router.push("/");
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 300);
   };
 
-  // ✅ 애니메이션
   useEffect(() => {
     if (visible) {
       gsap.to(ref.current, { opacity: 1, duration: 1.5, ease: "power2.inOut" });

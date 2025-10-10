@@ -64,6 +64,11 @@
   align-self: center;
 }
 
+.loginBtn:hover {
+  background: linear-gradient(90deg, #59CAD2, #59CAD2);
+  transform: scale(1.05);
+}
+
 /* 우측 */
 .right {
   flex: 1;
@@ -100,6 +105,11 @@
   cursor: pointer;
   display: inline-block;
   width: auto;
+}
+
+.signupBtn:hover {
+  background: linear-gradient(90deg, #333, #333);
+  transform: scale(1.05);
 }
 
 .error {
