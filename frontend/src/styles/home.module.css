@@ -118,7 +118,7 @@
 
 .match-list {
   background-color: #f3f4f6;
-  min-height: 100vh;
+  min-height: 50vh;
   padding: 100px;
 }
 
@@ -136,20 +136,25 @@
 }
 
 .match-card {
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s;
 }
 
 .match-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-4px);
 }
 
-.match-card img {
-  width: 100%;
-  height: 200px;
+.match-card img {  
+  width: 65%;
+  height: 65%;
   object-fit: cover;
 }
 
@@ -162,6 +167,36 @@
   font-size: 18px;
   font-weight: 600;
 }
+.match-logos-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+  margin-bottom: 16px;
+}
+
+.team-logo {
+  width: 10%;
+  height: 10%;
+  object-fit: contain;
+}
+
+.vs-text {
+  font-weight: 700;
+  font-size: 18px;
+  color: #222;
+}
+
+
+.info {
+  text-align: center;
+}
+.title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
 
 .pagination {
   display: flex;

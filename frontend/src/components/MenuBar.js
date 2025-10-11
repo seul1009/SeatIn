@@ -73,7 +73,7 @@ export default function MenuBar({ visible }) {
           }}
         >
           <li style={{ margin: "7vh 0" }}>
-            <Link href="/home" style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
+          <Link href="/home" style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
               홈
             </Link>
           </li>
