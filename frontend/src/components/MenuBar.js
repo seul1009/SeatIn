@@ -69,19 +69,18 @@ export default function MenuBar({ visible }) {
             flexDirection: "column",  // 세로로 정렬
             gap: "20px",
             paddingTop: 30,
-            fontSize: "20px",
+            fontSize: "18px",
           }}
         >
           <li style={{ margin: "7vh 0" }}>
-            <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>
+            <Link href="/home" style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
               홈
             </Link>
           </li>
           <li style={{ margin: "7vh 0" }}>
             <Link
               href="/reservation"
-              style={{ color: "inherit", textDecoration: "none" }}
-            >
+              style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
               경기 예매
             </Link>
           </li>
@@ -91,8 +90,7 @@ export default function MenuBar({ visible }) {
             <li style={{ margin: "7vh 0" }}>
               <Link
                 href="/login"
-                style={{ color: "inherit", textDecoration: "none" }}
-              >
+                style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
                 로그인
               </Link>
             </li>
@@ -102,8 +100,7 @@ export default function MenuBar({ visible }) {
               <li style={{ margin: "7vh 0" }}>
                 <Link
                   href="/mypage"
-                  style={{ color: "inherit", textDecoration: "none" }}
-                >
+                  style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
                   마이페이지
                 </Link>
               </li>
@@ -114,6 +111,7 @@ export default function MenuBar({ visible }) {
                   cursor: "pointer",
                   color: "#f76c6c",
                   textDecoration: "none",
+                  fontFamily: "sans-serif"
                 }}
               >
                 로그아웃
