@@ -1,17 +1,24 @@
 import os
 import requests
 import base64
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 import json
+from django.utils import timezone
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .models import Payment
+from match.models import Match
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def confirm_payment(request):
     try:
         data = json.loads(request.body)
         payment_key = data.get("paymentKey")
         order_id = data.get("orderId")
         amount = data.get("amount")
+        match_id = data.get("matchId")
+        method = data.get("method", "toss")
 
         secret_key = os.getenv("TOSS_SECRET_KEY")
         basic_token = base64.b64encode((secret_key + ":").encode("utf-8")).decode("utf-8")
@@ -30,7 +37,17 @@ def confirm_payment(request):
         response = requests.post(url, json=body, headers=headers)
 
         if response.status_code == 200:
-            return Response(response.json(), status=status.HTTP_200_OK)
+            result = response.json()
+
+            Payment.objects.create(
+                member=request.user,
+                match=match,
+                method=method,
+                amount=amount,
+                status="completed",
+                approved_at=timezone.now(),
+            )
+            return Response({"message": "결제 성공", "toss_response": result})
         else:
             return Response(response.json(), status=response.status_code)
     except Exception as e:
