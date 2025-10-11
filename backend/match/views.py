@@ -10,12 +10,14 @@ def match_list(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def match_detail(request, pk):
+def match_detail(request, match_id):
     try:
-        match = Match.objects.get(pk=pk)
+        match = Match.objects.get(id=match_id)
+        serializer = MatchSerializer(match)
+        return Response(serializer.data)
     except Match.DoesNotExist:
-        return Response({'error': 'Match not found'}, status=404)
+        return Response({'error': '경기 정보를 찾을 수 없습니다.'}, status=404)
     
-    # 👇 context 추가 (포스터 절대경로 포함)
     serializer = MatchSerializer(match, context={'request': request})
     return Response(serializer.data)
+
