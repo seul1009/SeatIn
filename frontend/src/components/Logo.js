@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { useRouter} from "next/router"
 
 const logoStyle = {
   textDecoration: "none",
   fontSize: "2.3rem",
-  fontWeight: "700",
+  fontWeight: "900",
   color: "#1e40af", 
   fontFamily: "sans-serif",
 };
@@ -13,9 +14,20 @@ const spanStyle = {
 };
 
 export default function Logo() {
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (router.pathname === "/home") {
+      router.reload(); 
+    } else {
+      router.push("/home"); 
+    }
+  };
+
   return (
-    <Link href="/" style={logoStyle}>
+    <a href="/home" onClick={handleClick} style={logoStyle}>
       Seat<span style={spanStyle}>In</span>
-    </Link>
+    </a>
   );
 }

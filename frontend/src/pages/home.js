@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import styles from "../styles/home.module.css";
 import Logo from "../components/Logo";
 
@@ -10,11 +10,26 @@ const categories = ["전체", "축구", "야구", "농구", "해외축구"];
 
 export default function HomePage() {
   const [currentBanner, setCurrentBanner] = useState(0);
-  const [activeCategory, setActiveCategory] = useState("축구");
+  const [activeCategory, setActiveCategory] = useState("전체");
   const [matches, setMatches] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 16;
+  const filteredMatches = matches.filter(
+    (m) => activeCategory === "전체" || m.category === activeCategory
+  );
+
+
+  const totalPages = Math.ceil(filteredMatches.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentMatches = filteredMatches.slice(startIndex, endIndex);
 
   const nextBanner = () => setCurrentBanner((prev) => (prev + 1) % banners.length);
   const prevBanner = () => setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/match/")
@@ -22,12 +37,6 @@ export default function HomePage() {
       .then((data) => setMatches(data))
       .catch((err) => console.error("데이터 불러오기 실패:", err));
   }, []);
-
-  const filteredMatches =
-    activeCategory === "전체"
-      ? matches
-      : matches.filter((match) => match.category === activeCategory);
-
 
   return (
     <main className={styles["home-container"]}>
@@ -37,6 +46,7 @@ export default function HomePage() {
 
         <div className={styles["search-bar"]}>
           <input type="text" placeholder="공연, 경기, 지역 검색" />
+          <Search className={styles.icon} />
         </div>
 
         <nav className={styles["nav-links"]}>
@@ -74,8 +84,8 @@ export default function HomePage() {
       <section className={styles["match-list"]}>
         <h1>경기 목록</h1>
         <div className={styles["match-grid"]}>
-          {filteredMatches.length > 0 ? (
-            filteredMatches.map((match) => (
+          {currentMatches.length > 0 ? (
+            currentMatches.map((match) => (
               <div key={match.id} className={styles["match-card"]}>
                 <img src={match.poster} alt={match.title} />
                 <div className={styles.info}>
@@ -90,6 +100,22 @@ export default function HomePage() {
             <p className={styles.loading}>데이터를 불러오는 중입니다...</p>
           )}
         </div>
+        {/* 페이지네이션 */}
+        {totalPages > 1 && (
+          <div className={styles["pagination"]}>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`${styles["page-btn"]} ${
+                  currentPage === i + 1 ? styles.active : ""
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
