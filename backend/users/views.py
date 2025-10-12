@@ -86,7 +86,7 @@ def activate(request, uidb64, token):
 # ✅ 로그인 (이메일 인증 여부 확인)
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
-        data = super().validate(attrs)
+        data = super().validate(attrs) # JWT 토큰 발급
         if not self.user.is_active:
             raise serializers.ValidationError({"detail": "이메일 인증을 완료해야 로그인할 수 있습니다."})
         return data

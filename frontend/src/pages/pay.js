@@ -1,50 +1,64 @@
+import { useEffect, useState } from "react";
 import { loadTossPayments } from "@tosspayments/payment-sdk";
-import { useState } from "react";
+import { useRouter } from "next/router";
 import styles from "../styles/Pay.module.css";
 
-export default function PayPage() {
+export default function PaymentPage() {
+  const router = useRouter();
+  const { matchId } = router.query; 
+  const [match, setMatch] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (!matchId) return;
+    fetch(`http://localhost:8000/api/match/${matchId}/`)
+      .then((res) => res.json())
+      .then((data) => setMatch(data))
+      .catch((err) => console.error(err));
+  }, [matchId]);
+
   const handlePayment = async () => {
+    if (!match) return alert("경기 정보를 불러오는 중입니다.");
+
     try {
       setLoading(true);
-
       const tossPayments = await loadTossPayments(
         process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY
       );
 
-      if (!tossPayments || typeof tossPayments.requestPayment !== "function") {
-        throw new Error("TossPayments SDK 로드 실패!");
-      }
+      const orderId = "order_" + new Date().getTime();
+      const amount = 15000;
 
       await tossPayments.requestPayment("카드", {
-        amount: 1000,
-        orderId: "order_" + new Date().getTime(),
-        orderName: "SeatIn 티켓",
-        successUrl: "http://localhost:3000/pay_success",
+        amount,
+        orderId,
+        orderName: match.title,
+        successUrl: `http://localhost:3000/pay_success?orderId=${orderId}&amount=${amount}&method=toss`,
         failUrl: "http://localhost:3000/pay_fail",
       });
-    } catch (error) {
-      console.error("결제 요청 실패:", error);
-      alert("결제를 진행할 수 없습니다. 다시 시도해주세요.");
+    } catch (e) {
+      console.error("결제 요청 실패:", e);
+      alert("결제 요청 중 문제가 발생했습니다.");
     } finally {
       setLoading(false);
     }
   };
 
+  if (!match) return <div className={styles.loading}>경기 정보를 불러오는 중...</div>;
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1 className={styles.title}>SeatIn</h1>
+        <h1 className={styles.title}>경기 결제 확인</h1>
         <p className={styles.subtitle}>
-          선택하신 경기 좌석 결제를 진행해 주세요.
+          아래 경기 정보를 확인 후 결제를 진행하세요.
         </p>
 
-        <div className={styles.orderBox}>
-          <p className={styles.orderTitle}>주문 정보</p>
-          <p className={styles.orderItem}>경기명: <b>2025 축구 경기</b></p>
-          <p className={styles.orderItem}>좌석: A구역 12열 5번</p>
-          <p className={styles.orderItem}>금액: <b>1,000원</b></p>
+        <div className={styles.infoBox}>
+          <p><b>경기명:</b> {match.title}</p>
+          <p><b>카테고리:</b> {match.category}</p>
+          <p><b>일시:</b> {new Date(match.date).toLocaleString()}</p>
+          <p><b>장소:</b> {match.location}</p>
         </div>
 
         <button
@@ -54,10 +68,6 @@ export default function PayPage() {
         >
           {loading ? "결제 진행 중..." : "Toss로 결제하기"}
         </button>
-
-        <p className={styles.notice}>
-          결제는 TossPayments를 통해 안전하게 진행됩니다.
-        </p>
       </div>
     </div>
   );

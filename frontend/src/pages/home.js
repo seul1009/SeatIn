@@ -6,7 +6,7 @@ import localFont from "next/font/local";
 import Logo from "../components/Logo";
 
 const banners = ["/images/banner1.png", "/images/banner2.png", "/images/banner3.png"];
-const categories = ["전체", "축구", "야구", "농구", "해외축구"];
+const categories = ["전체", "K리그", "KBO", "KBL", "프리미어리그"];
 
 export default function HomePage() {
   const [currentBanner, setCurrentBanner] = useState(0);
@@ -87,12 +87,38 @@ export default function HomePage() {
           {currentMatches.length > 0 ? (
             currentMatches.map((match) => (
               <div key={match.id} className={styles["match-card"]}>
-                <img src={match.poster} alt={match.title} />
+
+                {/* ✅ 로고 중앙 배치 */}
+                <div className={styles["match-logos-center"]}>
+                  <img
+                    src={match.poster1_url}
+                    alt="원정팀 로고"
+                    className={styles["team-logo"]}
+                  />
+                  <span className={styles["vs-text"]}>VS</span>
+                  <img
+                    src={match.poster2_url}
+                    alt="홈팀 로고"
+                    className={styles["team-logo"]}
+                  />
+                </div>
+
+                {/* ✅ 경기 정보 */}
                 <div className={styles.info}>
-                  <p>{match.title}</p>
+                  <p className={styles.title}>{match.title}</p>
                   <p>{match.category}</p>
                   <p>{match.location}</p>
-                  <p>{match.date}</p>
+                  <p>
+                    {new Date(match.date).toLocaleString("ko-KR", {
+                      timeZone: "Asia/Seoul",  
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}
+                  </p>
                 </div>
               </div>
             ))
@@ -117,6 +143,8 @@ export default function HomePage() {
           </div>
         )}
       </section>
+
+
     </main>
   );
 }

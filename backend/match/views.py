@@ -5,16 +5,19 @@ from .serializers import MatchSerializer
 
 @api_view(['GET'])
 def match_list(request):
-    matches = Match.objects.all()                 # DB에서 전체 공연 조회
+    matches = Match.objects.all().order_by("date")
     serializer = MatchSerializer(matches, many=True, context={'request': request})
-  # 모델 → JSON 변환
-    return Response(serializer.data)           # 변환된 JSON 응답
+    return Response(serializer.data)
 
 @api_view(['GET'])
-def match_detail(request, pk):
+def match_detail(request, match_id):
     try:
-        match = Match.objects.get(pk=pk)
+        match = Match.objects.get(id=match_id)
+        serializer = MatchSerializer(match)
+        return Response(serializer.data)
     except Match.DoesNotExist:
-        return Response({'error': 'Match not found'}, status=404)
-    serializer = MatchSerializer(match)
+        return Response({'error': '경기 정보를 찾을 수 없습니다.'}, status=404)
+    
+    serializer = MatchSerializer(match, context={'request': request})
     return Response(serializer.data)
+
