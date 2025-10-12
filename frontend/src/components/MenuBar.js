@@ -38,11 +38,12 @@ export default function MenuBar({ visible }) {
       ref={ref}
       style={{
         position: "absolute",
+        fontFamily: "NanumSquareNeo",
         top: 0,
         left: 0,
         width: "20vw",
         height: "100vh",
-        background: "#fff",
+        background: "rgba(255, 255, 255, 0.85)",
         color: "#000",
         padding: "4vh 3vw",
         opacity: 0,
@@ -73,14 +74,14 @@ export default function MenuBar({ visible }) {
           }}
         >
           <li style={{ margin: "7vh 0" }}>
-            <Link href="/home" style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
+          <Link href="/home" style={{ color: "inherit", textDecoration: "none", fontFamily: "NanumSquareNeo"}}>
               홈
             </Link>
           </li>
           <li style={{ margin: "7vh 0" }}>
             <Link
               href="/reservation"
-              style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
+              style={{ color: "inherit", textDecoration: "none", fontFamily: "NanumSquareNeo"}}>
               경기 예매
             </Link>
           </li>
@@ -90,7 +91,7 @@ export default function MenuBar({ visible }) {
             <li style={{ margin: "7vh 0" }}>
               <Link
                 href="/login"
-                style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
+                style={{ color: "inherit", textDecoration: "none", fontFamily: "NanumSquareNeo"}}>
                 로그인
               </Link>
             </li>
@@ -100,7 +101,7 @@ export default function MenuBar({ visible }) {
               <li style={{ margin: "7vh 0" }}>
                 <Link
                   href="/mypage"
-                  style={{ color: "inherit", textDecoration: "none", fontFamily: "sans-serif"}}>
+                  style={{ color: "inherit", textDecoration: "none", fontFamily: "NanumSquareNeo"}}>
                   마이페이지
                 </Link>
               </li>
