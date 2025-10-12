@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import styles from "../styles/home.module.css";
+import localFont from "next/font/local";
 import Logo from "../components/Logo";
 
 const banners = ["/images/banner1.png", "/images/banner2.png", "/images/banner3.png"];

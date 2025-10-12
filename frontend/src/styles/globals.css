@@ -1,0 +1,27 @@
+@font-face {
+    font-family: "NanumSquareNeo";
+    src: url("/fonts/NanumSquareNeo-bRg.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "NanumSquareNeo";
+    src: url("/fonts/NanumSquareNeo-cBd.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Giants";
+    src: url("/fonts/Giants-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Giants";
+    src: url("/fonts/Giants-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
