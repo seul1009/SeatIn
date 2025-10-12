@@ -8,7 +8,7 @@ export default function PaySuccessPage() {
 
   useEffect(() => {
     if (paymentKey) {
-      fetch("http://localhost:8000/payments/confirm/", {
+      fetch("http://localhost:8000/api/payments/confirm/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ paymentKey, orderId, amount }),
@@ -74,8 +74,6 @@ export default function PaySuccessPage() {
               wordBreak: "break-all",
             }}
           >
-            <b>PaymentKey</b>
-            <span>{paymentKey}</span>
           </div>
 
           <div style={{ marginTop: 30, display: "flex", gap: "10px" }}>
