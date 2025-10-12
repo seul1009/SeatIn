@@ -4,6 +4,7 @@ import { Canvas, useThree } from "@react-three/fiber"
 import { OrbitControls, useGLTF } from "@react-three/drei"
 import { gsap } from "gsap"
 import MenuBar from "../components/MenuBar"
+import Head from "next/head";
 
 function StadiumModel() {
   const { scene } = useGLTF("/models/stadium.glb")
@@ -46,27 +47,33 @@ export default function Start() {
   }, [router.query])
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-        position: "fixed",
-        background: "#F1FFFFFF",
-      }}
-    >
-      <Canvas
-        style={{ width: "100%", height: "100%" }}
-        camera={{ position: [-20, 150, 150], fov: 50 }}
+    <>
+    <Head>
+        <title>SeatIn</title>
+      </Head>
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
+          position: "fixed",
+          background: "#F1FFFFFF",
+        }}
       >
-        <ambientLight intensity={3} />
-        <directionalLight position={[100, 100, 120]} />
-        <StadiumModel />
-        <CameraAnimation onZoomEnd={() => setMenuVisible(true)} />
-        <OrbitControls enableRotate={false} enablePan={false} enableZoom={false} />
-      </Canvas>
+        <Canvas
+          style={{ width: "100%", height: "100%" }}
+          camera={{ position: [-20, 150, 150], fov: 50 }}
+        >
+          <ambientLight intensity={3} />
+          <directionalLight position={[100, 100, 120]} />
+          <StadiumModel />
+          <CameraAnimation onZoomEnd={() => setMenuVisible(true)} />
+          <OrbitControls enableRotate={false} enablePan={false} enableZoom={false} />
+        </Canvas>
 
-      <MenuBar visible={menuVisible} />
-    </div>
+        <MenuBar visible={menuVisible} />
+      </div>
+    </>
+
   )
 }
