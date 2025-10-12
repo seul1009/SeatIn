@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import localFont from "next/font/local";
 import Logo from "../components/Logo";
+import styles from "../styles/home.module.css";
 
 const banners = ["/images/banner1.png", "/images/banner2.png", "/images/banner3.png"];
 const categories = ["전체", "K리그", "KBO", "KBL", "프리미어리그"];
