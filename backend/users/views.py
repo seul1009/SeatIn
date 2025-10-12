@@ -148,8 +148,7 @@ def naver_callback(request):
         access = str(refresh.access_token)
         refresh_token = str(refresh)
 
-        # ✅ 프론트엔드로 리디렉션 (Next.js 홈)
-        redirect_url = f"http://localhost:3000/?access={access}&refresh={refresh_token}"
+        redirect_url = f"http://localhost:3000/auth/callback?access={access}&refresh={refresh_token}"
         return redirect(redirect_url)
 
     except requests.exceptions.RequestException as e:
@@ -174,13 +173,13 @@ def google_callback(request):
     }
 
     try:
-        # 1️⃣ 토큰 요청
+        # 토큰 요청
         token_res = requests.post(token_url, data=data).json()
         access_token = token_res.get("access_token")
         if not access_token:
             return Response({"error": "Failed to get access token"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 2️⃣ 사용자 프로필 요청
+        # 사용자 프로필 요청
         profile_res = requests.get(
             "https://www.googleapis.com/oauth2/v2/userinfo",
             headers={"Authorization": f"Bearer {access_token}"}
@@ -193,7 +192,7 @@ def google_callback(request):
         if not email:
             return Response({"error": "Email not found in profile"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 3️⃣ 사용자 생성 or 가져오기
+        # 사용자 생성 or 가져오기
         user, created = User.objects.get_or_create(
             email=email,
             defaults={
@@ -202,13 +201,12 @@ def google_callback(request):
             }
         )
 
-        # 4️⃣ JWT 토큰 발급
+        # JWT 토큰 발급
         refresh = RefreshToken.for_user(user)
         access = str(refresh.access_token)
         refresh_token = str(refresh)
 
-        # 5️⃣ 프론트엔드로 리디렉션 (Next.js 홈)
-        redirect_url = f"http://localhost:3000/?access={access}&refresh={refresh_token}"
+        redirect_url = f"http://localhost:3000/auth/callback?access={access}&refresh={refresh_token}"
         return redirect(redirect_url)
 
     except requests.exceptions.RequestException as e:

@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     "users",
     "home",
-    "match"
+    "match",
+    "payments",
 ]
 
 SITE_ID = 1
