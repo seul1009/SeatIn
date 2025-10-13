@@ -1,6 +1,5 @@
 from django.db import models
 from users.models import Member
-from match.models import Match
 
 class Payment(models.Model):
     PAYMENT_METHOD_CHOICES = [
@@ -20,7 +19,7 @@ class Payment(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="payments")
-    match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name="payments")  # 경기 정보 연결
+    match = models.ForeignKey('match.Match', on_delete=models.CASCADE, related_name="payments")  # 경기 정보 연결
 
     amount = models.PositiveIntegerField(null=False)  
     method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default="toss", null=False)
