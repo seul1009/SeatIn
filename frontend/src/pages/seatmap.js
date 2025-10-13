@@ -12,15 +12,15 @@ export default function SeatMap() {
 
   useEffect(() => {
     setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
+      width: window.innerWidth,
+      height: window.innerHeight,
     });
 
     const handleResize = () => {
-        setDimensions({
+      setDimensions({
         width: window.innerWidth,
         height: window.innerHeight,
-        });
+      });
     };
 
     window.addEventListener("resize", handleResize);
@@ -62,7 +62,7 @@ export default function SeatMap() {
         position: "relative",
         width: "100vw",
         height: "100vh",
-        background: "#bffab0ff",
+        background: "#94e280ff",
         overflow: "hidden",
       }}
     >
@@ -76,13 +76,12 @@ export default function SeatMap() {
             left: `${toScreenX(seat.x)}px`,
             top: `${toScreenY(seat.y)}px`,
             transform: "translate(-50%, -50%)",
-            width: "18px",
-            height: "18px",
+            width: "8px",
+            height: "8px",
             border: "1px solid #bebebeff",
             background:
-              selectedSeat?.seat_id === seat.seat_id ? "orange" : "#33a3ffff",
+              selectedSeat?.seat_id === seat.seat_id ? "orange" : "#2b71ffff",
             cursor: "pointer",
-            transition: "0.2s",
           }}
         />
       ))}
@@ -100,6 +99,11 @@ export default function SeatMap() {
             borderRadius: "12px",
             boxShadow: "0 8px 25px rgba(0,0,0,0.3)",
             zIndex: 10,
+            borderRadius: "12px",
+            overflow: "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <button
@@ -110,8 +114,9 @@ export default function SeatMap() {
               right: "10px",
               border: "none",
               background: "transparent",
-              fontSize: "20px",
+              fontSize: "23px",
               cursor: "pointer",
+              zIndex: 100,
             }}
           >
             ✕

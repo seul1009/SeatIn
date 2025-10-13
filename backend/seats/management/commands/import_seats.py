@@ -13,11 +13,11 @@ class Command(BaseCommand):
         )
         csv_path = os.path.normpath(csv_path)
 
-        with open(csv_path, newline='', encoding='utf-8') as csvfile:
+        with open(csv_path, newline='', encoding='utf-8-sig') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 Seat.objects.update_or_create(
-                    seat_id=row['seat_id'],
+                    seat_id=row['seat_id'].strip(),
                     defaults={
                         'x': float(row['x']),
                         'y': float(row['y']),

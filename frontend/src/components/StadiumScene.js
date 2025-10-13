@@ -1,28 +1,26 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-function CameraController({ targetPosition }) {
+function CameraController({ targetPosition, orbitRef }) {
   const { camera } = useThree();
 
   useEffect(() => {
-    if (!targetPosition) return;
+    if (!targetPosition || !orbitRef.current) return;
 
-    // Blender → Three.js 좌표계 변환
     const x = targetPosition.x;
-    const y = targetPosition.z + 2; 
-    const z = -targetPosition.y;   
+    const y = targetPosition.z + 2;
+    const z = -targetPosition.y;
 
     camera.position.set(x, y, z);
 
-    // 중심을 바라보게 
-    camera.lookAt(0, 0, 0);
+    orbitRef.current.target.set(40, 0, -40);
+    orbitRef.current.update();
 
-  }, [targetPosition, camera]);
+  }, [targetPosition, camera, orbitRef]);
 
   return null;
 }
-
 
 function StadiumModel() {
   const { scene } = useGLTF("/models/stadium.glb");
@@ -30,13 +28,15 @@ function StadiumModel() {
 }
 
 export default function StadiumScene({ selectedSeat }) {
+  const orbitRef = useRef();
+
   return (
     <Canvas camera={{ position: [0, 50, 80], fov: 50 }}>
       <ambientLight intensity={1.2} />
       <directionalLight position={[10, 20, 10]} />
       <StadiumModel />
-      <CameraController targetPosition={selectedSeat} />
-      <OrbitControls enableZoom={true} />
+      <CameraController targetPosition={selectedSeat} orbitRef={orbitRef} />
+      <OrbitControls ref={orbitRef} enableZoom={false} enableRotate={false} enablePan={false} />
     </Canvas>
   );
 }
