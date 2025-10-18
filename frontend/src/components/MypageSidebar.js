@@ -42,6 +42,7 @@ export default function MyPageSidebar() {
             padding: "10px 16px",
             cursor: "pointer",
             fontSize: "18px",
+            fontFamily: "NanumSquareNeo",
           }}
         >
           정보 수정

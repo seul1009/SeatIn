@@ -24,4 +24,8 @@ urlpatterns = [
     path("payments/", views.my_payments, name="my_payments"),
     # 결제한 경기 정보
     path("tickets/", views.my_tickets, name="my_tickets"),
+    # 정보 수정
+    path("send-code/", views.send_verification_code),
+    path("verify-code/", views.verify_email_code),
+    path("profile/", views.member_profile, name="member_profile"),
 ]
