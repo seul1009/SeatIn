@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from django.contrib.auth.decorators import login_required
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status, serializers
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -18,6 +19,7 @@ from django.shortcuts import redirect, render
 from .serializers import CustomRegisterSerializer
 from .tokens import account_activation_token
 import requests
+from payments.models import Payment
 
 User = get_user_model()
 
@@ -325,3 +327,63 @@ def kakao_callback(request):
 
     except requests.exceptions.RequestException as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@login_required
+def my_page(request):
+    member = request.user  # 현재 로그인한 사용자
+    payments = Payment.objects.select_related('match').filter(member=member)
+
+    return render(request, 'my_page.html', {
+        'member': member,
+        'payments': payments,
+    })
+
+
+# 결제 내역 전송
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def my_payments(request):
+    member = request.user
+    payments = Payment.objects.select_related('match').filter(member=member)
+
+    data = [
+        {
+            "id": p.id,
+            "amount": p.amount,
+            "method": p.method,
+            "status": p.status,
+            "payment_time": p.payment_time,
+            "match_title": p.match.title,
+            "category": p.match.category,
+            "poster1": p.match.poster1,
+            "poster2": p.match.poster2,
+            "date": p.match.date,
+            "location": p.match.location,
+        }
+        for p in payments
+    ]
+    return Response(data)
+
+# 결제한 경기 정보 전송
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def my_tickets(request):
+    member = request.user
+    payments = Payment.objects.select_related('match').filter(member=member)
+
+    data = [
+        {
+            "id": p.id,
+            "match_title": p.match.title,
+            "category": p.match.category,
+            "date": p.match.date,
+            "location": p.match.location,
+            "poster1": p.match.poster1,
+            "poster2": p.match.poster2,
+            "amount": p.amount,
+            "method": p.method,
+            "payment_time": p.payment_time,
+        }
+        for p in payments
+    ]
+    return Response(data)

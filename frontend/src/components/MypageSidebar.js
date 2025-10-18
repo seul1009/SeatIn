@@ -8,7 +8,6 @@ export default function MyPageSidebar() {
         top: 0,
         left: 0,
         left: "20%",
-        height: "70%",   
         width: "260px",  
         borderRadius: 20,     
         backgroundColor: "#283577", 
