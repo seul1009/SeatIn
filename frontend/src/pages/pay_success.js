@@ -74,7 +74,7 @@ export default function PaySuccessPage() {
           <button className={styles.homeButton} onClick={() => router.push("/home")}>
             홈으로 돌아가기
           </button>
-          <button className={styles.confirmButton} onClick={() => router.push("/mypage")}>
+          <button className={styles.confirmButton} onClick={() => router.push("/mypage/pay")}>
             예매 내역 확인
           </button>
         </div>
