@@ -9,12 +9,23 @@ class MemberManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, username=username, phone=phone, **extra_fields)
         user.set_password(password)  # 비밀번호 해시 저장
-        user.is_active = False  # 기본적으로 회원을 비활성화 상태로 설정
+
+        if not extra_fields.get("is_superuser"):
+            user.is_active = False  # 기본적으로 회원을 비활성화 상태로 설정
+        
         user.save(using=self._db)
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
-        # 관리자 생성 시에도 최소 필드로
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
         return self.create_user(email, password, **extra_fields)
 
 
@@ -23,6 +34,11 @@ class Member(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, blank=True, null=True, unique=False)
     phone = models.BigIntegerField(blank=True, null=True)
     is_active = models.BooleanField(default=False)  # 이메일 인증 후 활성화 여부
+
+    
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)    
+    is_superuser = models.BooleanField(default=False)
 
     objects = MemberManager()
 

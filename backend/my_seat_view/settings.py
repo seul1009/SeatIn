@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 INSTALLED_APPS = [
     'corsheaders',
+    'jazzmin',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -56,6 +57,10 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -133,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = "Asia/Seoul"
 
