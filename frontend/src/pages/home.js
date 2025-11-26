@@ -12,13 +12,13 @@ export default function HomePage() {
   const router = useRouter();
   const [currentBanner, setCurrentBanner] = useState(0);
   const [activeCategory, setActiveCategory] = useState("전체");
+  const [searchTerm, setSearchTerm] = useState("");
   const [matches, setMatches] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 16;
-  const filteredMatches = matches.filter(
-    (m) => activeCategory === "전체" || m.category === activeCategory
-  );
-
+  const normalizedQuery = searchTerm.trim().toLowerCase();
+  const filteredMatches = matches;
 
   const totalPages = Math.ceil(filteredMatches.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -35,19 +35,38 @@ export default function HomePage() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeCategory]);
+  }, [activeCategory, searchTerm]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/match/")
+    const controller = new AbortController();
+    const params = new URLSearchParams();
+
+    if (normalizedQuery) params.append("q", normalizedQuery);
+    if (activeCategory !== "전체") params.append("category", activeCategory);
+
+    setIsLoading(true);
+
+    fetch(
+      `http://127.0.0.1:8000/api/match/${params.toString() ? `?${params.toString()}` : ""}`,
+      { signal: controller.signal }
+    )
       .then((res) => res.json())
-      .then((data) => setMatches(data))
-      .catch((err) => console.error("데이터 불러오기 실패:", err));
-  }, []);
+      .then((data) => setMatches(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          console.error("데이터 불러오기 실패:", err);
+          setMatches([]);
+        }
+      })
+      .finally(() => setIsLoading(false));
+
+    return () => controller.abort();
+  }, [normalizedQuery, activeCategory]);
 
   return (
     <main className={styles["home-container"]}>
       {/* 상단 네비게이션 */}
-      <Navbar />
+      <Navbar searchValue={searchTerm} onSearch={setSearchTerm} />
 
       {/* 배너 */}
       <section className={styles["banner-section"]}>
@@ -79,7 +98,12 @@ export default function HomePage() {
         <div className={styles["match-grid"]}>
           {currentMatches.length > 0 ? (
             currentMatches.map((match) => (
-              <div key={match.id} className={styles["match-card"]} onClick={() => router.push(`/pay?matchId=${match.id}`)} style={{ cursor: "pointer" }}>
+              <div
+                key={match.id}
+                className={styles["match-card"]}
+                onClick={() => router.push(`/seatmap?matchId=${match.id}`)}
+                style={{ cursor: "pointer" }}
+              >
 
                 {/* ✅ 로고 중앙 배치 */}
                 <div className={styles["match-logos-center"]}>
@@ -116,7 +140,9 @@ export default function HomePage() {
               </div>
             ))
           ) : (
-            <p className={styles.loading}>데이터를 불러오는 중입니다...</p>
+            <p className={styles.loading}>
+              {isLoading ? "데이터를 불러오는 중입니다..." : "검색 결과가 없습니다."}
+            </p>
           )}
         </div>
         {/* 페이지네이션 */}

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Search } from "lucide-react";
 import Logo from "./Logo";
 
-export default function Navbar() {
+export default function Navbar({ searchValue, onSearch }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
@@ -63,6 +63,11 @@ export default function Navbar() {
         <input
           type="text"
           placeholder="공연, 경기, 지역 검색"
+          value={onSearch ? searchValue ?? "" : undefined}
+          onChange={(e) => onSearch?.(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onSearch?.(e.target.value);
+          }}
           style={{
             fontFamily: "NanumSquareNeo",
             width: "100%",
@@ -72,10 +77,12 @@ export default function Navbar() {
           }}
         />
         <Search
+          onClick={() => onSearch?.(searchValue ?? "")}
           style={{
             color: "#d1d5db",
             width: "20px",
             height: "20px",
+            cursor: onSearch ? "pointer" : "default",
           }}
         />
       </div>

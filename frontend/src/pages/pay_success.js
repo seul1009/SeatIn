@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "../styles/PaySuccess.module.css";
+import Navbar from "../components/Navbar";
 
 export default function PaySuccessPage() {
   const router = useRouter();
-  const { paymentKey, orderId, amount, matchId } = router.query;
+  const { paymentKey, orderId, amount, matchId, seat, section } = router.query;
   const [response, setResponse] = useState(null);
+  const [matchTitle, setMatchTitle] = useState("");
   
   useEffect(() => {
     if (paymentKey) {
@@ -20,6 +22,14 @@ export default function PaySuccessPage() {
         .catch((err) => console.error(err));
     }
   }, [paymentKey]);
+
+  useEffect(() => {
+    if (!matchId) return;
+    fetch(`http://localhost:8000/api/match/${matchId}/`)
+      .then((res) => res.json())
+      .then((data) => setMatchTitle(data?.title || ""))
+      .catch(() => {});
+  }, [matchId]);
 
   useEffect(() => {
   console.log("💡 router.query:", router.query);
@@ -37,48 +47,57 @@ export default function PaySuccessPage() {
   });
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <img
-          width="100"
-          src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png"
-          alt="success"
-          className={styles.icon}
-        />
-        <h2 className={styles.title}>결제가 완료되었습니다</h2>
+    <>
+      <Navbar />
+      <main className={styles.container}>
+        <div className={styles.card}>
+          <div className={styles.hero}>
+            <img
+              width="110"
+              src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png"
+              alt="success"
+              className={styles.icon}
+            />
+            <div>
+              <p className={styles.kicker}>Payment Complete</p>
+              <h1>결제가 완료되었습니다</h1>
+              <p className={styles.sub}>예매 내역은 마이페이지에서 언제든 확인할 수 있어요.</p>
+            </div>
+          </div>
 
-        <div className={styles.infoBox}>
+          <div className={styles.infoBox}>
+            <div className={styles.infoRow}>
+              <span>경기명</span>
+              <strong>{matchTitle || matchId || "-"}</strong>
+            </div>
           <div className={styles.infoRow}>
-            <b>경기명</b>
-            <span>{matchId || "경기명"}</span>
+            <span>결제 금액</span>
+            <strong>{Number(amount || 0).toLocaleString()} 원</strong>
           </div>
           <div className={styles.infoRow}>
-            <b>결제 금액</b>
-            <span>{Number(amount).toLocaleString()} 원</span>
+            <span>좌석</span>
+            <strong>{section ? `${section} ` : ""}{seat || "-"}</strong>
           </div>
-          <div className={styles.infoRow}>
-            <b>결제 일시</b>
-            <span>{formattedDate}</span>
+            <div className={styles.infoRow}>
+              <span>결제 일시</span>
+              <strong>{formattedDate}</strong>
+            </div>
+            <div className={styles.infoRow}>
+              <span>주문 번호</span>
+              <strong>{orderId}</strong>
+            </div>
+            <div className={styles.infoRow}>
+              <span>결제 수단</span>
+              <strong>{response?.method || "카드"}</strong>
+            </div>
           </div>
-          <div className={styles.infoRow}>
-            <b>주문 번호</b>
-            <span>{orderId}</span>
-          </div>
-          <div className={styles.infoRow}>
-            <b>결제 수단</b>
-            <span>{response?.method || "카드 결제"}</span>
+
+          <div className={styles.actions}>
+            <button className={styles.primary} onClick={() => router.push("/mypage/pay")}>예매 내역 확인</button>
+            <button className={styles.secondary} onClick={() => router.push("/home")}>홈으로 돌아가기</button>
           </div>
         </div>
-
-        <div className={styles.buttonGroup}>
-          <button className={styles.homeButton} onClick={() => router.push("/home")}>
-            홈으로 돌아가기
-          </button>
-          <button className={styles.confirmButton} onClick={() => router.push("/mypage/pay")}>
-            예매 내역 확인
-          </button>
-        </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

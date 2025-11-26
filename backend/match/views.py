@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Match
@@ -5,7 +6,22 @@ from .serializers import MatchSerializer
 
 @api_view(['GET'])
 def match_list(request):
-    matches = Match.objects.all().order_by("date")
+    search_query = request.query_params.get("q", "").strip()
+    category = request.query_params.get("category")
+
+    matches = Match.objects.all()
+
+    if category:
+        matches = matches.filter(category=category)
+
+    if search_query:
+        matches = matches.filter(
+            Q(title__icontains=search_query)
+            | Q(location__icontains=search_query)
+            | Q(category__icontains=search_query)
+        )
+
+    matches = matches.order_by("date")
     serializer = MatchSerializer(matches, many=True, context={'request': request})
     return Response(serializer.data)
 
@@ -20,4 +36,3 @@ def match_detail(request, match_id):
     
     serializer = MatchSerializer(match, context={'request': request})
     return Response(serializer.data)
-
