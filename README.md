@@ -20,11 +20,17 @@ SeatIn은 Three.js 기반의 경기장 3D 모델 시각화를 통해 사용자�
 - Blender를 통한 3D 공연장 모델링 
 </br>
 
-## Screenshots
+## 세부 화면
+![화면_기록_2025-11-27_오후_2 09 37-2](https://github.com/user-attachments/assets/69e392ef-574e-4c54-bed1-2c226d534c2c)
+</br>
+
 <img width="60%" src="https://github.com/user-attachments/assets/f59139a6-2d7d-4720-a29d-256afe6865c9" />
 </br>
 
-## 세부 화면
+
+https://github.com/user-attachments/assets/1f93e6ef-01e9-48ac-b9e3-785f3f6226a3
+
+
 <div style="display: flex; gap: 10px;">
   <img width="49%" src="https://github.com/user-attachments/assets/81214bda-0375-4158-8b1e-00c2fffdff5f" />
   <img width="49%" src="https://github.com/user-attachments/assets/47f6b326-18c4-4d71-9ba3-21197f84422b" />
